@@ -11,7 +11,7 @@ SELECT
     ,hits.type
     ,SUM(totals.bounces) OVER(PARTITION BY CONCAT(fullVisitorId, CAST(visitId AS STRING))) AS total_no_of_bounces 
     ,MAX(hits.hitNumber) OVER(PARTITION BY CONCAT(fullVisitorId, CAST(visitId AS STRING))) AS max_hit 
-FROM `cog-ga-365-big-query.132581016.ga_sessions_*`, UNNEST (hits) AS hits
+FROM {{ source('132581016', 'ga_sessions_*')}}, UNNEST (hits) AS hits
 WHERE _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE(), INTERVAL 62 DAY)) 
     AND FORMAT_DATE('%Y%m%d',DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY))
     AND hits.type = 'PAGE' AND hits.dataSource = 'web'

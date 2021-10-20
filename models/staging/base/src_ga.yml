@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: '132581016'
+    tables:
+      - name: ga_sessions_*
+
+      #`cog-ga-365-big-query.132581016.ga_sessions_*`
