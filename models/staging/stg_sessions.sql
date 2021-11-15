@@ -10,7 +10,7 @@ SELECT
     ,1 as unique_pageviews
   FROM (
         SELECT * 
-        FROM {{ ref('GA_rollup') }}
+        FROM {{ ref('GA_hits_rollup') }}
         WHERE type = "PAGE" 
   )
   GROUP BY
