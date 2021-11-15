@@ -18,7 +18,7 @@ SELECT
           ,hit_number
           ,total_no_of_bounces 
           ,max_hit
-      FROM {{ ref('GA_rollup') }}
+      FROM {{ ref('GA_hits_rollup') }}
       ) aa
 GROUP BY date, region, fullURL
 HAVING region !='xxx' --AND hit_number >= 100
