@@ -11,6 +11,8 @@ SELECT
 FROM {{ source('132581016', 'ga_sessions_*')}}, UNNEST (hits) AS hits
 WHERE _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE(), INTERVAL 750 DAY)) 
     AND FORMAT_DATE('%Y%m%d',DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)) 
-    AND hits.transaction.transactionId IS NOT NULL
+    AND MAX((totals.totalTransactionRevenue / 1000000)) IS NOT NULL
     AND SPLIT(hits.page.pagePath, '/')[SAFE_OFFSET(1)] IN ('au','nz','za','us','my','sg','hc','uk')
+    AND (hits.dataSource = 'web' AND hits.type = 'PAGE') OR (hits.dataSource = 'app' AND hits.type = 'EVENT')
 GROUP BY 1,2,3    
+
