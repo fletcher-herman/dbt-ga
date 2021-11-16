@@ -1,6 +1,7 @@
 SELECT
     session_id
-    ,CAST(aest_datetime as date) as date
+    ,aest_datetime
+    ,site_region
     ,hostname
     ,pagepath
     ,fullURL
@@ -14,6 +15,6 @@ SELECT
         WHERE type = "PAGE" 
   )
   GROUP BY
-    session_id, hostname, pagePath, revenue_AUD, fullURL, date 
+    session_id, site_region, hostname, pagePath, revenue_AUD, fullURL, aest_datetime 
   ORDER BY
     pageviews DESC

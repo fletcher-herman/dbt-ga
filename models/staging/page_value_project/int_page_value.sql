@@ -1,5 +1,5 @@
 SELECT 
-  date
+  CAST(aest_datetime as date) as date
   ,fullURL
   ,SUM(revenue_AUD) / SUM(unique_pageviews) AS PageValue
   ,SUM(revenue_AUD) AS revenue_AUD
