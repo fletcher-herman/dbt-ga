@@ -8,7 +8,7 @@ SELECT
     ,MAX((cast(hits.transaction.localTransactionRevenue as INT64) / 1000000)) as transactionRevenue_local
     ,MAX((cast(hits.transaction.localTransactionTax as INT64) / 1000000)) as transactionTax_local
     ,MAX((cast(hits.transaction.localTransactionShipping as INT64) / 1000000)) as transactionShipping_local
-FROM {{ source('132581016', 'ga_sessions_*')}}, UNNEST (hits) AS hits
+FROM {{ source('132581016', 'ga_sessions_intraday_*')}}, UNNEST (hits) AS hits
 WHERE _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE(), INTERVAL 750 DAY)) 
     AND FORMAT_DATE('%Y%m%d',DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)) 
     AND hits.transaction.transactionId IS NOT NULL
