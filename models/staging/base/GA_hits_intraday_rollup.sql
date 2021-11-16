@@ -1,5 +1,6 @@
 SELECT
-    TIMESTAMP_SECONDS(visitStartTime) as aest_datetime
+     CONCAT(fullVisitorId, CAST(visitStartTime AS STRING)) AS session_id
+    ,TIMESTAMP_SECONDS(visitStartTime) as aest_datetime
     ,SPLIT(hits.page.pagePath, '/')[SAFE_OFFSET(1)] as site_region 
     ,CONCAT(fullVisitorId, CAST(visitId AS STRING)) AS unique_visit_id 
     ,CONCAT(hits.page.hostname, hits.page.pagePath) as fullURL
@@ -7,9 +8,9 @@ SELECT
     ,hits.page.hostname
     ,hits.page.pagePath
     ,hits.hitNumber AS hit_number
-    ,CONCAT(fullVisitorId, CAST(visitStartTime AS STRING)) AS session_id
     ,hits.dataSource
     ,hits.type
     ,SUM(totals.bounces) OVER(PARTITION BY CONCAT(fullVisitorId, CAST(visitId AS STRING))) AS total_no_of_bounces 
     ,MAX(hits.hitNumber) OVER(PARTITION BY CONCAT(fullVisitorId, CAST(visitId AS STRING))) AS max_hit 
 FROM {{ source('132581016', 'ga_sessions_intraday_*')}}, UNNEST (hits) AS hits
+WHERE SPLIT(hits.page.pagePath, '/')[SAFE_OFFSET(1)] IN ('au','nz','za','us','my','sg','hc','uk')
