@@ -15,6 +15,6 @@ SELECT
         FROM {{ ref('GA_hits_rollup') }}
   )
   GROUP BY
-    session_id, site_region, hostname, pagePath, revenue_AUD, fullURL, aest_datetime , datasource, type
+    session_id, site_region, hostname, pagePath, fullURL, aest_datetime , datasource, type
   ORDER BY
     pageviews DESC
