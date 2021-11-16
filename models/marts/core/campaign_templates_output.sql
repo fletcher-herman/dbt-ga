@@ -12,11 +12,11 @@ select
         when site_region='za' then DATETIME(aest_datetime, "Africa/Johannesburg")                                   
         else null end) as date
     ,channelGrouping
-    ,count((session_id)) as disc_sessions
+    ,count((distinct session_id)) as disc_sessions
     ,SUM(IF(revenue_AUD is not null,1,0)) as transactions
     ,SUM(IF(revenue_AUD is not null,1,0)) / count((session_id)) as conversion_rate
     ,SUM(revenue_AUD) as revenue
     ,SUM(revenue_AUD) / SUM(IF(revenue_AUD is not null,1,0)) as AOV
-from {{ ref('campaign_templates')}}
+from {{ ref('campaign_templates')}} 
 group by 1,2,3 
 order by 1 desc

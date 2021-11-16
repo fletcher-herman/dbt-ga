@@ -13,4 +13,6 @@ SELECT
     ,SUM(totals.bounces) OVER(PARTITION BY CONCAT(fullVisitorId, CAST(visitId AS STRING))) AS total_no_of_bounces 
     ,MAX(hits.hitNumber) OVER(PARTITION BY CONCAT(fullVisitorId, CAST(visitId AS STRING))) AS max_hit 
 FROM {{ source('132581016', 'ga_sessions_intraday_*')}}, UNNEST (hits) AS hits
-WHERE SPLIT(hits.page.pagePath, '/')[SAFE_OFFSET(1)] IN ('au','nz','za','us','my','sg','hc','uk')
+WHERE 
+    SPLIT(hits.page.pagePath, '/')[SAFE_OFFSET(1)] IN ('au','nz','za','us','my','sg','hc','uk')
+    AND (hits.dataSource = 'web' AND hits.type = 'PAGE') OR (hits.dataSource = 'app' AND hits.type = 'EVENT')
