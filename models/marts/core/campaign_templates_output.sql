@@ -17,6 +17,6 @@ select
     ,SUM(IF(revenue_AUD is not null,1,0)) / count((session_id)) as conversion_rate
     ,SUM(revenue_AUD) as revenue
     ,SUM(revenue_AUD) / SUM(IF(revenue_AUD is not null,1,0)) as AOV
-from {{ ref('campaign_templates')}} 
+from {{ ref('int_campaign_templates')}} 
 group by 1,2,3 
 order by 1 desc
