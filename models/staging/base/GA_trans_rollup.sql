@@ -1,5 +1,8 @@
+{{ config(materialized='table') }}
+
 SELECT
      CONCAT(fullVisitorId, CAST(visitStartTime AS STRING)) AS session_id
+    ,CONCAT(fullVisitorId, CAST(visitId AS STRING)) AS unique_visit_id 
     ,TIMESTAMP_SECONDS(visitStartTime) as aest_datetime
     ,SPLIT(hits.page.pagePath, '/')[SAFE_OFFSET(1)] as site_region
     ,geoNetwork.country as user_region
@@ -16,13 +19,14 @@ WHERE _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE(), INTER
     AND FORMAT_DATE('%Y%m%d',DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)) 
     --AND hits.transaction.transactionId IS NOT NULL
     --AND SPLIT(hits.page.pagePath, '/')[SAFE_OFFSET(1)] IN ('au','nz','za','us','my','sg','hc','uk')
-    AND (hits.dataSource = 'web' AND hits.type = 'PAGE') OR (hits.dataSource = 'app' AND hits.type = 'TRANSACTION')
-GROUP BY 1,2,3,4,5,6  
+    AND (hits.dataSource = 'web' AND hits.transaction.transactionId IS NOT NULL) OR (hits.dataSource = 'app' AND hits.type = 'TRANSACTION')
+GROUP BY 1,2,3,4,5,6,7  
 
 UNION DISTINCT
 
 SELECT
     CONCAT(fullVisitorId, CAST(visitStartTime AS STRING)) AS session_id
+    ,CONCAT(fullVisitorId, CAST(visitId AS STRING)) AS unique_visit_id 
     ,TIMESTAMP_SECONDS(visitStartTime) as aest_datetime
     ,SPLIT(hits.page.pagePath, '/')[SAFE_OFFSET(1)] as site_region
     ,geoNetwork.country as user_region
@@ -39,8 +43,8 @@ WHERE _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE(), INTER
     AND FORMAT_DATE('%Y%m%d',DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)) 
     --AND hits.transaction.transactionId IS NOT NULL
     --AND SPLIT(hits.page.pagePath, '/')[SAFE_OFFSET(1)] IN ('au','nz','za','us','my','sg','hc','uk')
-    AND (hits.dataSource = 'web' AND hits.type = 'PAGE') OR (hits.dataSource = 'app' AND hits.type = 'TRANSACTION')
-GROUP BY 1,2,3,4,5,6   
+    AND (hits.dataSource = 'web' AND hits.transaction.transactionId IS NOT NULL) OR (hits.dataSource = 'app' AND hits.type = 'TRANSACTION')
+GROUP BY 1,2,3,4,5,6,7   
 
 
 
