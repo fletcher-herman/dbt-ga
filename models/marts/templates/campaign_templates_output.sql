@@ -1,40 +1,19 @@
-WITH rev_cte
-AS
-    (
-        SELECT
-            EXTRACT(date FROM aest_datetime) as date
-            ,user_region
-            ,dataSource
-            ,channelGrouping
-            ,SUM(transactionRevenue_AUD) as transactionRevenue_AUD
-            ,SUM(transactionTax_AUD) as transactionTax_AUD
-            ,SUM(transactionShipping_AUD) as transactionShipping_AUD
-        FROM
-            {{ ref('GA_trans_rollup')}}    
-    )
+--year_flag	 date	dataSource	channelGrouping	site_region_recode	sessions	transactions	conversion_rate	revenue	AOV
 
-SELECT 
-    EXTRACT(YEAR FROM h.aest_datetime) AS year_flag
-    ,EXTRACT(DATE FROM aest_datetime) as date
-    ,h.dataSource
-    ,h.channelGrouping
-    ,sls.site_region_recode
-    ,h.user_region
-    ,COUNT(distinct h.session_id) AS sessions
-    ,COUNT(distinct t.session_id) AS transactions
-    ,SUM(IF(t.session_id IS NOT NULL,1,0)) / COUNT((h.session_id)) AS conversion_rate
-    
-    --,SUM((transactionRevenue_AUD) - (transactionTax_AUD + transactionShipping_AUD)) AS revenue_without_tax_shipping
-    --,SUM(transactionRevenue_AUD) / SUM(IF(transactionRevenue_AUD is not null,1,0)) AS AOV
-FROM {{ ref('GA_hits_rollup')}} h
-LEFT JOIN {{ ref('GA_trans_rollup')}} t
-    USING (session_id)
-LEFT JOIN {{ ref('int_session_level_store_attr')}} sls
-    USING (session_id)
---LEFT JOIN rev_cte
- --   ON              
+SELECT
+    EXTRACT(YEAR from aest_datetime) as year_flag
+    ,EXTRACT(DATE from aest_datetime) as aest_date
+    ,dataSource
+    ,channelGrouping
+    ,site_region_recode as site_region
+    ,user_region
+    ,COUNT(*) as sessions
+    ,SUM(IF(transactionRevenue_AUD IS NOT NULL, 1, 0)) as transactions
+    ,SUM(transactionRevenue_AUD) as revenue_AUD
+    ,SUM(transactionTax_AUD) as tax_AUD
+    ,SUM(transactionShipping_AUD) as shipping
+FROM {{ ref('int_session_join_trans')}}    
 GROUP BY 1,2,3,4,5,6
-
 
 
    -- CASE 
