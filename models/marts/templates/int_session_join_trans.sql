@@ -3,7 +3,7 @@ AS
     (
 SELECT 
     session_id
-    ,aest_date
+    ,local_date
     ,aest_datetime
     ,user_region
     ,channelGrouping
@@ -16,7 +16,7 @@ FROM
 
 SELECT 
     ds.session_id
-    ,ds.aest_date
+    ,ds.local_date
     ,ds.aest_datetime
     ,ds.channelGrouping
     ,ds.dataSource
