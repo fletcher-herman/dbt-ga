@@ -7,7 +7,8 @@ SELECT
     ,SPLIT(hits.page.pagePath, '/')[SAFE_OFFSET(1)] as site_region
     ,geoNetwork.country as user_region
     ,hits.dataSource
-    ,hits.type 
+    ,hits.type
+    ,channelGrouping 
     ,MAX((totals.totalTransactionRevenue / 1000000)) as transactionRevenue_AUD
     ,MAX((cast(hits.transaction.transactionTax as INT64) / 1000000)) as transactionTax_AUD
     ,MAX((cast(hits.transaction.transactionShipping as INT64) / 1000000)) as transactionShipping_AUD
@@ -20,7 +21,7 @@ WHERE _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE(), INTER
     --AND hits.transaction.transactionId IS NOT NULL
     --AND SPLIT(hits.page.pagePath, '/')[SAFE_OFFSET(1)] IN ('au','nz','za','us','my','sg','hc','uk')
     AND (hits.dataSource = 'web' AND hits.transaction.transactionId IS NOT NULL) OR (hits.dataSource = 'app' AND hits.type = 'TRANSACTION')
-GROUP BY 1,2,3,4,5,6,7  
+GROUP BY 1,2,3,4,5,6,7,8  
 
 UNION DISTINCT
 
@@ -32,6 +33,7 @@ SELECT
     ,geoNetwork.country as user_region
     ,hits.dataSource
     ,hits.type  
+    ,channelGrouping
     ,MAX((totals.totalTransactionRevenue / 1000000)) as transactionRevenue_AUD
     ,MAX((cast(hits.transaction.transactionTax as INT64) / 1000000)) as transactionTax_AUD
     ,MAX((cast(hits.transaction.transactionShipping as INT64) / 1000000)) as transactionShipping_AUD
@@ -44,7 +46,7 @@ WHERE _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE(), INTER
     --AND hits.transaction.transactionId IS NOT NULL
     --AND SPLIT(hits.page.pagePath, '/')[SAFE_OFFSET(1)] IN ('au','nz','za','us','my','sg','hc','uk')
     AND (hits.dataSource = 'web' AND hits.transaction.transactionId IS NOT NULL) OR (hits.dataSource = 'app' AND hits.type = 'TRANSACTION')
-GROUP BY 1,2,3,4,5,6,7   
+GROUP BY 1,2,3,4,5,6,7,8   
 
 
 
