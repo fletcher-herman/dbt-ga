@@ -2,7 +2,8 @@
 
 SELECT
      CONCAT(fullVisitorId, CAST(visitStartTime AS STRING)) AS session_id
-    ,CONCAT(fullVisitorId, CAST(visitId AS STRING)) AS unique_visit_id 
+    ,CONCAT(fullVisitorId, CAST(visitId AS STRING)) AS unique_visit_id
+    ,date as aest_date 
     ,TIMESTAMP_SECONDS(visitStartTime) as aest_datetime
     ,SPLIT(hits.page.pagePath, '/')[SAFE_OFFSET(1)] as site_region 
     ,geoNetwork.country as user_region
@@ -26,6 +27,7 @@ UNION DISTINCT
 SELECT
      CONCAT(fullVisitorId, CAST(visitStartTime AS STRING)) AS session_id
     ,CONCAT(fullVisitorId, CAST(visitId AS STRING)) AS unique_visit_id 
+    ,date as aest_date
     ,TIMESTAMP_SECONDS(visitStartTime) as aest_datetime
     ,SPLIT(hits.page.pagePath, '/')[SAFE_OFFSET(1)] as site_region 
     ,geoNetwork.country as user_region

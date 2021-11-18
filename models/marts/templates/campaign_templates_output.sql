@@ -1,6 +1,6 @@
 SELECT
     EXTRACT(YEAR from aest_datetime) as year_flag
-    ,EXTRACT(DATE from aest_datetime) as aest_date
+    ,aest_date
     ,dataSource
     ,channelGrouping
     ,site_region_recode as site_region
