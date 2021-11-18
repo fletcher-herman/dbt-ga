@@ -1,5 +1,3 @@
---year_flag	 date	dataSource	channelGrouping	site_region_recode	sessions	transactions	conversion_rate	revenue	AOV
-
 SELECT
     EXTRACT(YEAR from aest_datetime) as year_flag
     ,EXTRACT(DATE from aest_datetime) as aest_date
@@ -7,11 +5,11 @@ SELECT
     ,channelGrouping
     ,site_region_recode as site_region
     ,user_region
-    ,COUNT(*) as sessions
-    ,SUM(IF(transactionRevenue_AUD IS NOT NULL, 1, 0)) as transactions
+    ,COUNT(distinct session_id) as sessions
+    ,COUNT(IF(transactionRevenue_AUD IS NOT NULL, 1, 0)) as transactions
     ,SUM(transactionRevenue_AUD) as revenue_AUD
     ,SUM(transactionTax_AUD) as tax_AUD
-    ,SUM(transactionShipping_AUD) as shipping
+    ,SUM(transactionShipping_AUD) as shipping_AUD
 FROM {{ ref('int_session_join_trans')}}    
 GROUP BY 1,2,3,4,5,6
 
