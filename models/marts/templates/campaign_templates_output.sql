@@ -6,7 +6,7 @@ SELECT
     ,site_region_recode as site_region
     ,user_region
     ,COUNT(distinct session_id) as sessions
-    ,SUM(IF(transactionRevenue_AUD IS NOT NULL, 1, 0)) as transactions
+    ,SUM(IF(transactionRevenue_AUD >0, 1, 0)) as transactions
     ,SUM(transactionRevenue_AUD) as revenue_AUD
     ,SUM(transactionTax_AUD) as tax_AUD
     ,SUM(transactionShipping_AUD) as shipping_AUD
