@@ -1,4 +1,4 @@
---{{ config(materialized='table') }}
+{{ config(materialized='table') }}
 
 SELECT
      CONCAT(fullVisitorId, CAST(visitStartTime AS STRING)) AS session_id
