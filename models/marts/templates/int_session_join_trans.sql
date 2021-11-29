@@ -3,7 +3,7 @@ AS
     (
 SELECT 
     session_id
-    ,aest_date
+    ,local_date
     ,aest_datetime
     ,user_region
     ,channelGrouping
@@ -16,15 +16,15 @@ FROM
 
 SELECT 
     ds.session_id
-    ,ds.aest_date
+    ,ds.local_date
     ,ds.aest_datetime
     ,ds.channelGrouping
     ,ds.dataSource
     ,ds.user_region
     ,site_region_recode
-    ,transactionRevenue_AUD
-    ,transactionTax_AUD
-    ,transactionShipping_AUD
+    ,IFNULL(transactionRevenue_AUD, 0) as transactionRevenue_AUD
+    ,IFNULL(transactionTax_AUD, 0) as transactionTax_AUD
+    ,IFNULL(transactionShipping_AUD, 0) as transactionShipping_AUD
 FROM
     disc_sessions ds
 LEFT JOIN {{ ref('stg_session_level_store_attr')}}

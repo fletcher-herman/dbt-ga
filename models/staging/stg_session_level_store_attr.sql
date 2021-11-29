@@ -2,7 +2,7 @@ with user_recode as
     (
     select 
         session_id
-        ,aest_date
+        ,local_date
         ,aest_datetime
         ,hit_number
         ,CASE 
@@ -23,7 +23,7 @@ with user_recode as
 
 select DISTINCT
     session_id
-    ,aest_date
+    ,local_date
     ,aest_datetime
     ,LAST_VALUE(case_site_region_recode) OVER (PARTITION BY session_id ORDER BY hit_number ASC
         ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) 

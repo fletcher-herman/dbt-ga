@@ -1,10 +1,10 @@
---{{ config(materialized='table') }}
+{{ config(materialized='table') }}
 
 SELECT
      CONCAT(fullVisitorId, CAST(visitStartTime AS STRING)) AS session_id
     ,CONCAT(fullVisitorId, CAST(visitId AS STRING)) AS unique_visit_id 
-    ,PARSE_DATE('%Y%m%d', date) as aest_date
-    ,TIMESTAMP_SECONDS(visitStartTime) as aest_datetime
+    ,PARSE_DATE('%Y%m%d', date) as local_date -- local to user?
+    ,TIMESTAMP_SECONDS(visitStartTime) as aest_datetime -- attached to region of GA project?
     ,SPLIT(hits.page.pagePath, '/')[SAFE_OFFSET(1)] as site_region
     ,geoNetwork.country as user_region
     ,hits.dataSource
@@ -29,7 +29,7 @@ UNION DISTINCT
 SELECT
     CONCAT(fullVisitorId, CAST(visitStartTime AS STRING)) AS session_id
     ,CONCAT(fullVisitorId, CAST(visitId AS STRING)) AS unique_visit_id
-    ,PARSE_DATE('%Y%m%d', date) as aest_date 
+    ,PARSE_DATE('%Y%m%d', date) as local_date 
     ,TIMESTAMP_SECONDS(visitStartTime) as aest_datetime
     ,SPLIT(hits.page.pagePath, '/')[SAFE_OFFSET(1)] as site_region
     ,geoNetwork.country as user_region
