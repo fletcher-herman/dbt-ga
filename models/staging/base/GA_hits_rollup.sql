@@ -1,7 +1,8 @@
 {{ config(materialized='table') }}
 
 SELECT
-     CONCAT(fullVisitorId, CAST(visitStartTime AS STRING)) AS session_id
+    fullVisitorId
+    ,CONCAT(fullVisitorId, CAST(visitStartTime AS STRING)) AS session_id
     ,CONCAT(fullVisitorId, CAST(visitId AS STRING)) AS unique_visit_id
     ,PARSE_DATE('%Y%m%d', date) as local_date 
     ,TIMESTAMP_SECONDS(visitStartTime) as aest_datetime
@@ -25,7 +26,8 @@ WHERE _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE(), INTER
 UNION DISTINCT
 
 SELECT
-     CONCAT(fullVisitorId, CAST(visitStartTime AS STRING)) AS session_id
+    fullVisitorId
+    ,CONCAT(fullVisitorId, CAST(visitStartTime AS STRING)) AS session_id
     ,CONCAT(fullVisitorId, CAST(visitId AS STRING)) AS unique_visit_id 
     ,PARSE_DATE('%Y%m%d', date) as local_date
     ,TIMESTAMP_SECONDS(visitStartTime) as aest_datetime
