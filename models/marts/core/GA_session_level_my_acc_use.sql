@@ -32,7 +32,7 @@ select
     ,myacc_wishlist 
     ,count(*) as sessions
     ,SUM(IF(transactionRevenue_AUD >0, 1, 0)) as transactions
-    ,AVG(transactionRevenue_AUD) as AOV
+    ,SUM(transactionRevenue_AUD) as total_sales
     
 from myacc_summary
 group by 1,2,3,4,5,6  
