@@ -33,5 +33,6 @@ with unioned as
     GROUP BY 1,2,3,4,5
     ORDER BY 2
     )
-    
-        
+
+select * from unioned    
+
