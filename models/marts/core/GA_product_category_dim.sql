@@ -1,3 +1,7 @@
+-- Product Category dimension lookup 
+
+-- note: very convoluted and with PLP change (late 2021) incluce more issue.
+
 with unioned as 
     (
     SELECT

@@ -21,5 +21,5 @@ SELECT
       FROM {{ ref('GA_hits_rollup') }}
       ) aa
 GROUP BY date, site_region, fullURL
-HAVING site_region !='xxx' --AND hit_number >= 100
+HAVING site_region !='xxx' AND fullURL is not null--AND hit_number >= 100 
 ORDER BY fullURL, date desc

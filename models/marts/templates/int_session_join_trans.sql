@@ -1,3 +1,5 @@
+-- some peak (2021) stats for Brendan were at channel level
+
 WITH disc_sessions
 AS
     (

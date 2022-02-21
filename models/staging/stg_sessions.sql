@@ -1,3 +1,5 @@
+--## not sure if hostname/pagepath can be in this view, as at a different granularity.
+
 SELECT
     session_id
     ,aest_datetime
