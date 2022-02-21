@@ -1,6 +1,8 @@
 -- TRACKER Session level -  
 -- with My Account use (and flag for which sections viewed) - % of sessions and conversion rate and AOV
 
+-- NOT IN WORKING ORDER ATM 21/02/22 FH
+
 with myacc_summary
 as
 (

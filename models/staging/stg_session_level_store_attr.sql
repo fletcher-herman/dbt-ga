@@ -1,3 +1,5 @@
+--## attempting to attribute a site region to a session, becomes an issue when users hit multiple regions in a session
+
 with user_recode as
     (
     select 

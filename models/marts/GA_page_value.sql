@@ -1,3 +1,5 @@
+-- From lens 10 consulting support 
+
 SELECT 
   CAST(aest_datetime as date) as date
   ,fullURL
