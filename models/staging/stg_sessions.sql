@@ -20,4 +20,4 @@ SELECT
   GROUP BY
     session_id, site_region, hostname, pagePath, fullURL, aest_datetime , datasource, type, transactionRevenue_AUD
   ORDER BY
-    pageviews DESC
+    pageviews --DESC
